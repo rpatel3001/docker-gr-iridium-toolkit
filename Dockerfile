@@ -51,6 +51,8 @@ RUN set -x && \
     # install iridium-toolkit
     git clone https://github.com/muccc/iridium-toolkit.git /opt/iridium-toolkit && \
     pushd /opt/iridium-toolkit && \
+    mv html/map.html html/index.html && \
+    rm html/example.sh && \
     git apply /tmp/iridium-toolkit.patch && \
     popd && \
     # install gr-iridium
