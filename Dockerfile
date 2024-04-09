@@ -33,12 +33,14 @@ RUN set -x && \
     TEMP_PACKAGES+=(build-essential) && \
     TEMP_PACKAGES+=(cmake) && \
     TEMP_PACKAGES+=(git) && \
+    TEMP_PACKAGES+=(libusb-1.0-0-dev) && \
     TEMP_PACKAGES+=(gnuradio-dev) && \
     TEMP_PACKAGES+=(libsndfile1-dev) && \
     # keep
     KEPT_PACKAGES+=(python3) && \
     KEPT_PACKAGES+=(python3-prctl) && \
     KEPT_PACKAGES+=(pypy3) && \
+    KEPT_PACKAGES+=(libusb-1.0-0) && \
     KEPT_PACKAGES+=(gnuradio) && \
     KEPT_PACKAGES+=(gr-osmosdr) && \
     KEPT_PACKAGES+=(libsndfile1) && \
@@ -46,6 +48,37 @@ RUN set -x && \
     apt-get install -y --no-install-recommends \
     "${KEPT_PACKAGES[@]}" \
     "${TEMP_PACKAGES[@]}" && \
+    # Deploy SoapyRTLTCP
+    git clone https://github.com/pothosware/SoapyRTLTCP.git /src/SoapyRTLTCP && \
+    pushd /src/SoapyRTLTCP && \
+    mkdir -p /src/SoapyRTLTCP/build && \
+    pushd /src/SoapyRTLTCP/build && \
+    cmake ../ -DCMAKE_BUILD_TYPE=Debug && \
+    make all && \
+    make install && \
+    popd && popd && \
+    ldconfig && \
+    # deploy airspyone host
+    git clone https://github.com/airspy/airspyone_host.git /src/airspyone_host && \
+    pushd /src/airspyone_host && \
+    mkdir -p /src/airspyone_host/build && \
+    pushd /src/airspyone_host/build && \
+    cmake ../ -DINSTALL_UDEV_RULES=ON && \
+    make && \
+    make install && \
+    ldconfig && \
+    popd && popd && \
+    # Deploy Airspy
+    git clone https://github.com/pothosware/SoapyAirspy.git /src/SoapyAirspy && \
+    pushd /src/SoapyAirspy && \
+    mkdir build && \
+    pushd build && \
+    cmake .. && \
+    make    && \
+    make install   && \
+    popd && \
+    popd && \
+    ldconfig && \
     # install pip dependencies
     pypy3 -m pip install --force-reinstall --break-system-packages crcmod zmq && \
     # install iridium-toolkit
