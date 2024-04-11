@@ -51,6 +51,7 @@ RUN set -x && \
     # Deploy SoapyRTLTCP
     git clone https://github.com/pothosware/SoapyRTLTCP.git /src/SoapyRTLTCP && \
     pushd /src/SoapyRTLTCP && \
+    sed -i 's#SoapySDR::Range(900001, 3200000)#SoapySDR::Range(900001, 10000000)#' Settings.cpp && \
     mkdir -p /src/SoapyRTLTCP/build && \
     pushd /src/SoapyRTLTCP/build && \
     cmake ../ -DCMAKE_BUILD_TYPE=Debug && \
