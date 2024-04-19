@@ -6,5 +6,5 @@ echo "Starting iridium-extractor and iridium-parser"
 if [[ -n ${LOG_EXTRACTOR_STATS} ]]; then
     python3 -u `which iridium-extractor` $EXTRACTOR_ARGS /opt/irdm.conf 2> >(stdbuf -o0 awk '{print "[iridium-extractor] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}') > >(pypy3 -u /opt/iridium-toolkit/iridium-parser.py $PARSER_ARGS -o zmq 2>&1 | stdbuf -o0 awk '{print "[iridium-parser] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}')
 else
-    python3 -u `which iridium-extractor` $EXTRACTOR_ARGS /opt/irdm.conf 2> /dev/null | pypy3 -u /opt/iridium-toolkit/iridium-parser.py $PARSER_ARGS -o zmq 2>&1 | stdbuf -o0 awk '{print "[iridium-parser] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+    python3 -u `which iridium-extractor` $EXTRACTOR_ARGS /opt/irdm.conf 2> >(stdbuf -o0 awk '{print "[iridium-extractor] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}' | grep WARNING) > >(pypy3 -u /opt/iridium-toolkit/iridium-parser.py $PARSER_ARGS -o zmq 2>&1 | stdbuf -o0 awk '{print "[iridium-parser] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}')
 fi
