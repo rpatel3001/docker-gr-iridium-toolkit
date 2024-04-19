@@ -3,4 +3,8 @@
 
 echo "Starting reassembler"
 
-pypy3 -u /opt/iridium-toolkit/reassembler.py -i zmq: -m acars -a json --station $STATION_ID > >(nc -u localhost 5558)
+if [[ -n ${LOG_ACARS} ]]; then
+    pypy3 -u /opt/iridium-toolkit/reassembler.py -i zmq: -m acars -a json --station $STATION_ID | tee >(nc -4vu localhost 5558)
+else
+    pypy3 -u /opt/iridium-toolkit/reassembler.py -i zmq: -m acars -a json --station $STATION_ID > >(nc -4vu localhost 5558)
+fi

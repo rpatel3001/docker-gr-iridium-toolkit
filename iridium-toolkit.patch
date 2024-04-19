@@ -7,28 +7,28 @@ index 0938146..177be65 100755
          self.odata=m.data
          self.ofreq=m.frequency
 +        self.olevel=m.level
- 
+
          ok=False
          for (idx,(freq,time,ctr,dat,cont,ul)) in enumerate(self.buf[:]):
 diff --git a/iridiumtk/reassembler/sbd.py b/iridiumtk/reassembler/sbd.py
-index 103c1c0..97154fe 100755
+index 103c1c0..43982de 100755
 --- a/iridiumtk/reassembler/sbd.py
 +++ b/iridiumtk/reassembler/sbd.py
-@@ -4,7 +4,7 @@
- import sys
- import datetime
- import re
--from util import to_ascii
-+from util import to_ascii, channelize
- 
- from .base import *
- from .ida import ReassembleIDA
+@@ -319,7 +319,7 @@ class ReassembleIDASBDACARS(ReassembleIDASBD):
+         if len(q.errors)>0 and not 'showerrs' in config.args:
+             return
+
+-        q.timestamp = datetime.datetime.fromtimestamp(q.time).strftime("%Y-%m-%dT%H:%M:%S%z")
++        q.timestamp = datetime.datetime.fromtimestamp(q.time, datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
+
+         while len(q.f_reg)>0 and q.f_reg[0:1]==b'.':
+             q.f_reg=q.f_reg[1:]
 @@ -362,6 +362,8 @@ class ReassembleIDASBDACARS(ReassembleIDASBD):
              #       that we want to include in the output. For example, we could include the raw SBD message in the output.
              #       Or possibly other embedded modes if they are present in the SBD message.
- 
-+            out['freq'] = channelize(self.ofreq)[0] * channel_width + base_freq
+
++            out['freq'] = self.ofreq
 +            out['level'] = self.olevel
              out['header'] = q.hdr.hex()
- 
+
              print(json.dumps(out), file=outfile)
