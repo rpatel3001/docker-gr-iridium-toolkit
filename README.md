@@ -27,6 +27,7 @@ services:
       - /dev:/dev:rw
       - ./irdm.conf:/opt/irdm.conf:ro
     environment:
+#      - DISABLE_EXTRACTOR=true
 #      - LOG_EXTRACTOR_STATS=true
 #      - LOG_MAP=true
 #      - EXTRACTOR_ARGS= -D 10
