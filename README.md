@@ -32,7 +32,7 @@ services:
 #      - DISABLE_EXTRACTOR=true
 #      - LOG_EXTRACTOR_STATS=true
 #      - LOG_MAP=true
-#      - EXTRACTOR_ARGS= -D 10
+#      - EXTRACTOR_ARGS= -D 8  # Valid values when running high sample rate are 1, 2, 4, 8 and 16
       - PARSER_ARGS= --harder --uw-ec # runs slower, remove uw-ec then harder if message rate is high
       - STATION_ID=XX-YYYY-IRDM
       - OUTPUT_SERVER=acarshub
