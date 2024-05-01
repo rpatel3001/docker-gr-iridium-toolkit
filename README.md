@@ -27,6 +27,8 @@ services:
       - /dev:/dev:rw
       - ./irdm.conf:/opt/irdm.conf:ro
     environment:
+#      - ENABLE_MTPOS_MAP=true
+#      - ENABLE_MTPOS_MAP_LOG=true
 #      - DISABLE_EXTRACTOR=true
 #      - LOG_EXTRACTOR_STATS=true
 #      - LOG_MAP=true
