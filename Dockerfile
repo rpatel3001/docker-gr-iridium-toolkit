@@ -86,6 +86,8 @@ RUN set -x && \
     git clone https://github.com/muccc/iridium-toolkit.git /opt/iridium-toolkit && \
     pushd /opt/iridium-toolkit && \
     mv html/map.html html/index.html && \
+    mkdir html2 && \
+    mv html/mtmap.html html2/index.html && \
     rm html/example.sh && \
     git apply /tmp/iridium-toolkit.patch && \
     popd && \

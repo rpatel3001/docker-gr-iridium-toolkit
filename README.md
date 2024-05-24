@@ -21,6 +21,7 @@ services:
     tty: true # actually needed, for iridium-parser.py
     ports:
       - 8888:8888 # for beam map
+      - 8889:8889 # for mt map
     device_cgroup_rules:
       - 'c 189:* rwm'
     volumes:
