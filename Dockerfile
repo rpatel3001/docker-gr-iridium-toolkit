@@ -39,6 +39,7 @@ RUN set -x && \
     # keep
     KEPT_PACKAGES+=(python3) && \
     KEPT_PACKAGES+=(python3-prctl) && \
+    KEPT_PACKAGES+=(python3-pip) && \
     KEPT_PACKAGES+=(pypy3) && \
     KEPT_PACKAGES+=(libusb-1.0-0) && \
     KEPT_PACKAGES+=(gnuradio) && \

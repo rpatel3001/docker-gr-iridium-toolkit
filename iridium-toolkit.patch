@@ -19,37 +19,16 @@ index fa36d5c..656cdc1 100755
          elif self.ftype=='j': # deperec
              self.time=self.mstime
              self.timens=int(self.mstime*(10**9))
-diff --git a/iridiumtk/reassembler/ida.py b/iridiumtk/reassembler/ida.py
-index 0938146..177be65 100755
---- a/iridiumtk/reassembler/ida.py
-+++ b/iridiumtk/reassembler/ida.py
-@@ -63,6 +63,7 @@ class ReassembleIDA(Reassemble):
-         self.otime=m.time
-         self.odata=m.data
-         self.ofreq=m.frequency
-+        self.olevel=m.level
- 
-         ok=False
-         for (idx,(freq,time,ctr,dat,cont,ul)) in enumerate(self.buf[:]):
 diff --git a/iridiumtk/reassembler/sbd.py b/iridiumtk/reassembler/sbd.py
-index 103c1c0..aa687f1 100755
+index d72f3b7..0c7f76f 100755
 --- a/iridiumtk/reassembler/sbd.py
 +++ b/iridiumtk/reassembler/sbd.py
-@@ -319,7 +319,7 @@ class ReassembleIDASBDACARS(ReassembleIDASBD):
-         if len(q.errors)>0 and not 'showerrs' in config.args:
+@@ -322,7 +322,7 @@ class ReassembleIDASBDACARS(ReassembleIDASBD):
+         if q.label == b'_\x7f' and 'nopings' in config.args:
              return
  
 -        q.timestamp = datetime.datetime.fromtimestamp(q.time).strftime("%Y-%m-%dT%H:%M:%S%z")
-+        q.timestamp = datetime.datetime.fromtimestamp(q.time, datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
++        q.timestamp = dt.epoch(q.time).isoformat(timespec='seconds')
  
          while len(q.f_reg)>0 and q.f_reg[0:1]==b'.':
              q.f_reg=q.f_reg[1:]
-@@ -362,6 +362,8 @@ class ReassembleIDASBDACARS(ReassembleIDASBD):
-             #       that we want to include in the output. For example, we could include the raw SBD message in the output.
-             #       Or possibly other embedded modes if they are present in the SBD message.
- 
-+            out['freq'] = self.ofreq
-+            out['level'] = self.olevel
-             out['header'] = q.hdr.hex()
- 
-             print(json.dumps(out), file=outfile)
