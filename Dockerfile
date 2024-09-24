@@ -49,6 +49,23 @@ RUN set -x && \
     apt-get install -y --no-install-recommends \
     "${KEPT_PACKAGES[@]}" \
     "${TEMP_PACKAGES[@]}" && \
+    # install sdrplay
+    curl --location --output /tmp/install_sdrplay.sh https://raw.githubusercontent.com/sdr-enthusiasts/install-libsdrplay/7e983ffa8df91f1721f8f286e61e68a17b671037/install_sdrplay.sh && \
+    sed -i 's/3.15/3.07/g' /tmp/install_sdrplay.sh && \
+    chmod +x /tmp/install_sdrplay.sh && \
+    /tmp/install_sdrplay.sh && \
+    # install sdrplay support for soapy
+    git clone https://github.com/pothosware/SoapySDRPlay.git /src/SoapySDRPlay && \
+    pushd /src/SoapySDRPlay && \
+    git checkout api-3.07 && \
+    mkdir build && \
+    pushd build && \
+    cmake .. && \
+    make && \
+    make install && \
+    popd && \
+    popd && \
+    ldconfig && \
     # Deploy SoapyRTLTCP
     git clone https://github.com/pothosware/SoapyRTLTCP.git /src/SoapyRTLTCP && \
     pushd /src/SoapyRTLTCP && \
