@@ -22,8 +22,6 @@ ENV OUTPUT_SERVER="acarshub" \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-COPY iridium-toolkit.patch /tmp/iridium-toolkit.patch
-
 # hadolint ignore=DL3008,SC2086,DL4006,SC2039
 RUN set -x && \
     TEMP_PACKAGES=() && \
@@ -99,7 +97,11 @@ RUN set -x && \
     popd && \
     ldconfig && \
     # install pip dependencies
-    pypy3 -m pip install --force-reinstall --break-system-packages crcmod zmq && \
+    pypy3 -m pip install --force-reinstall --break-system-packages crcmod zmq
+
+COPY iridium-toolkit.patch /tmp/iridium-toolkit.patch
+
+RUN set -x && \
     # install iridium-toolkit
     git clone https://github.com/muccc/iridium-toolkit.git /opt/iridium-toolkit && \
     pushd /opt/iridium-toolkit && \
