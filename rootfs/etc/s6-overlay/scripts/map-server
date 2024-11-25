@@ -1,6 +1,9 @@
 #!/command/with-contenv bash
 #shellcheck shell=bash
 
+echo "Starting map-server"
+cd /opt/iridium-toolkit/html
+
 if [[ -n $LOG_MAP ]]; then
     python3 -m http.server --bind 0.0.0.0 8888 2>&1 | stdbuf -o0 awk '{print "[map-server] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
 else
