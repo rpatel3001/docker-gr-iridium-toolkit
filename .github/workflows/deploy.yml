@@ -52,4 +52,4 @@ jobs:
       with:
         push: true
         platforms: linux/arm64
-        tags: ghcr.io/${{ github.repository }}:latest,ghcr.io/${{ github.repository }}:${{ github.run_number }}-${{ github.sha }}
+        tags: ghcr.io/${{ github.repository }}:latest-arm64,ghcr.io/${{ github.repository }}:${{ github.run_number }}-${{ github.sha }}-arm64
