@@ -35,13 +35,10 @@ RUN set -x && \
     TEMP_PACKAGES+=(libusb-1.0-0-dev) && \
     TEMP_PACKAGES+=(gnuradio-dev) && \
     TEMP_PACKAGES+=(libsndfile1-dev) && \
-    TEMP_PACKAGES+=(pypy3-dev) && \
-    TEMP_PACKAGES+=(gfortran) && \
     # keep
     KEPT_PACKAGES+=(python3) && \
     KEPT_PACKAGES+=(python3-prctl) && \
     KEPT_PACKAGES+=(python3-pip) && \
-    KEPT_PACKAGES+=(pypy3) && \
     KEPT_PACKAGES+=(libusb-1.0-0) && \
     KEPT_PACKAGES+=(gnuradio) && \
     KEPT_PACKAGES+=(gr-osmosdr) && \
@@ -51,7 +48,8 @@ RUN set -x && \
     "${KEPT_PACKAGES[@]}" \
     "${TEMP_PACKAGES[@]}" && \
     # install pip dependencies
-    pypy3 -m pip install --force-reinstall --break-system-packages crcmod zmq pyproj scipy
+    ln -s /usr/bin/python3 /usr/bin/pypy3
+    pypy3 -m pip install --break-system-packages crcmod zmq pyproj
 
 COPY iridium-toolkit.patch /tmp/iridium-toolkit.patch
 
