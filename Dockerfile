@@ -61,7 +61,7 @@ RUN set -x && \
     mkdir html2 && \
     mv html/mtmap.html html2/index.html && \
     rm html/example.sh && \
-    git apply /tmp/iridium-toolkit.patch && \
+    git apply --3way /tmp/iridium-toolkit.patch && \
     popd && \
     # install gr-iridium
     git clone https://github.com/muccc/gr-iridium.git /src/gr-iridium && \
