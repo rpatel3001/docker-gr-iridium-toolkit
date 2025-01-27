@@ -35,6 +35,8 @@ RUN set -x && \
     TEMP_PACKAGES+=(libusb-1.0-0-dev) && \
     TEMP_PACKAGES+=(gnuradio-dev) && \
     TEMP_PACKAGES+=(libsndfile1-dev) && \
+    TEMP_PACKAGES+=(pypy3-dev) && \
+    TEMP_PACKAGES+=(gfortran) && \
     # keep
     KEPT_PACKAGES+=(python3) && \
     KEPT_PACKAGES+=(python3-prctl) && \
