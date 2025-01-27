@@ -1,4 +1,4 @@
-FROM rust:1.77.0 AS builder
+FROM rust:1.84.0 AS builder
 WORKDIR /tmp/acars-bridge
 # hadolint ignore=DL3008,DL3003,SC1091
 RUN set -x && \
