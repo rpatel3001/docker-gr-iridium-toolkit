@@ -48,7 +48,7 @@ RUN set -x && \
     "${KEPT_PACKAGES[@]}" \
     "${TEMP_PACKAGES[@]}" && \
     # install pip dependencies
-    ln -s /usr/bin/python3 /usr/bin/pypy3
+    ln -s /usr/bin/python3 /usr/bin/pypy3 && \
     pypy3 -m pip install --break-system-packages crcmod zmq pyproj
 
 COPY iridium-toolkit.patch /tmp/iridium-toolkit.patch
