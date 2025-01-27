@@ -21,6 +21,8 @@ ENV OUTPUT_SERVER="acarshub" \
     OUTPUT_SERVER_MODE="udp" \
     NO_SDRPLAY_API="true"
 
+COPY iridium-toolkit.patch /tmp/iridium-toolkit.patch
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # hadolint ignore=DL3008,SC2086,DL4006,SC2039
@@ -49,11 +51,7 @@ RUN set -x && \
     "${TEMP_PACKAGES[@]}" && \
     # install pip dependencies
     ln -s /usr/bin/python3 /usr/bin/pypy3 && \
-    pypy3 -m pip install --break-system-packages crcmod zmq pyproj
-
-COPY iridium-toolkit.patch /tmp/iridium-toolkit.patch
-
-RUN set -x && \
+    pypy3 -m pip install --break-system-packages crcmod zmq pyproj && \
     # install iridium-toolkit
     git clone https://github.com/muccc/iridium-toolkit.git /opt/iridium-toolkit && \
     pushd /opt/iridium-toolkit && \
