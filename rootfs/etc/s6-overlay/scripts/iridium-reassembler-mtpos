@@ -6,9 +6,9 @@ if [[ -n $ENABLE_MTPOS_MAP ]]; then
   cd /opt/iridium-toolkit/html2
 
   if [[ -n $LOG_MTMAP ]]; then
-    pypy3 -u /opt/iridium-toolkit/reassembler.py -i zmq: -m live-mt-map 2>&1 | stdbuf -o0 awk '{print "[iridium-reassembler-mtmap] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+    pypy3 -u /opt/iridium-toolkit/reassembler.py -i zmq: -m live-mt-map --heatmap 2>&1 | stdbuf -o0 awk '{print "[iridium-reassembler-mtmap] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
   else
-    pypy3 -u /opt/iridium-toolkit/reassembler.py -i zmq: -m live-mt-map &> /dev/null
+    pypy3 -u /opt/iridium-toolkit/reassembler.py -i zmq: -m live-mt-map --heatmap &> /dev/null
   fi
 else
   echo "mtpos map not enabled"

@@ -58,6 +58,8 @@ RUN set -x && \
     mv html/map.html html/index.html && \
     mkdir html2 && \
     mv html/mtmap.html html2/index.html && \
+    mv html/mtheatmap.html html2 && \
+    cp html/favicon.ico html2 && \
     rm html/example.sh && \
     git apply --3way /tmp/iridium-toolkit.patch && \
     popd && \

@@ -1,5 +1,5 @@
 diff --git a/iridiumtk/reassembler/base.py b/iridiumtk/reassembler/base.py
-index fa36d5c..656cdc1 100755
+index afed0b5..7eff5c3 100755
 --- a/iridiumtk/reassembler/base.py
 +++ b/iridiumtk/reassembler/base.py
 @@ -3,6 +3,7 @@
@@ -10,7 +10,7 @@ index fa36d5c..656cdc1 100755
  import math
  
  from util import base_freq, channel_width, channelize_str, parse_channel
-@@ -58,7 +59,7 @@ class MyObject(object):
+@@ -65,7 +66,7 @@ class MyObject(object):
                  self.level=0
  
          if self.ftype=='p':
@@ -18,4 +18,28 @@ index fa36d5c..656cdc1 100755
 +            self.time=time.time()
          elif self.ftype=='j': # deperec
              self.time=self.mstime
-             self.timens=int(self.mstime*(10**9))
+         else:
+diff --git a/iridiumtk/reassembler/mtpos.py b/iridiumtk/reassembler/mtpos.py
+index b4c3267..0f41700 100644
+--- a/iridiumtk/reassembler/mtpos.py
++++ b/iridiumtk/reassembler/mtpos.py
+@@ -99,7 +99,6 @@ class ReassembleIDAMap(ReassembleIDA):
+                     sts = dt.epoch(int(time))
+                     mts = len(self.mt_heat)
+                     print("%s: %d MTs" % (sts, mts), end=eol, file=sys.stderr)
+-            return
+ 
+         self.mt_pos.append({"xyz": [pos['x']*4+2, pos['y']*4+2, pos['z']*4+2], "type": type, "ts": int(time)})
+ 
+@@ -118,10 +117,9 @@ class ReassembleIDAMap(ReassembleIDA):
+                 sts = dt.epoch(int(time))
+                 mts = len(self.mt_pos)
+                 print("%s: %d MTs" % (sts, mts), end=eol, file=sys.stderr)
++            self.end()
+ 
+     def end(self):
+-        if config.stats:
+-            print("", file=sys.stderr)
+         if config.heatmap:
+             ofile = config.output
+             if ofile is None:
