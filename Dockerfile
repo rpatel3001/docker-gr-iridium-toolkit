@@ -61,6 +61,8 @@ RUN set -x && \
     mv html/mtheatmap.html html2 && \
     cp html/favicon.ico html2 && \
     rm html/example.sh && \
+    sed -i 's/sha384-W1a9XBd7x3B3gcyPlNrsCnnyZVtJ4Nr5D5+fYIsw6cf73QTJ+wICxbfSToT3goMA/sha384-l669BHjG0oxQwcf5F+jvqTJVOiOAB4go67bcHDjtgs6PWW62ofQi9mATyishj7iv/' html2/index.html && \
+    sed -i 's/sha384-W1a9XBd7x3B3gcyPlNrsCnnyZVtJ4Nr5D5+fYIsw6cf73QTJ+wICxbfSToT3goMA/sha384-l669BHjG0oxQwcf5F+jvqTJVOiOAB4go67bcHDjtgs6PWW62ofQi9mATyishj7iv/' html2/mtheatmap.html && \
     git apply --3way /tmp/iridium-toolkit.patch && \
     popd && \
     # install gr-iridium
