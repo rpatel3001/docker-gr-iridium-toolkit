@@ -6,5 +6,5 @@ if [[ -n ${DISABLE_EXTRACTOR} ]]; then
     sleep infinity
     exit 0
 else
-  exec /etc/s6-overlay/scripts/iridium-extractor
+  exec /etc/s6-overlay/scripts/iridium-sniffer
 fi
