@@ -2,7 +2,7 @@
 #shellcheck shell=bash
 
 if [[ -n ${LOG_EXTRACTOR_STATS} ]]; then
-    iridium-sniffer -i soapy-0 -l --web=8887 2> >(stdbuf -o0 awk '{print "[iridium-sniffer] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}') > >(pypy3 -u /opt/iridium-toolkit/iridium-parser.py $PARSER_ARGS -o zmq 2>&1 | stdbuf -o0 awk '{print "[iridium-parser] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}')
+    iridium-sniffer -i soapy-0 -l --web=8887 --parsed 2> >(stdbuf -o0 awk '{print "[iridium-sniffer] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}') > >(socat -u STDIN UNIX-LISTEN:/tmp/irdmsock,fork)
 else
-    iridium-sniffer -i soapy-0 -l --web=8887 2> >(stdbuf -o0 awk '{print "[iridium-sniffer] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}' | grep WARNING) > >(pypy3 -u /opt/iridium-toolkit/iridium-parser.py $PARSER_ARGS -o zmq 2>&1 | stdbuf -o0 awk '{print "[iridium-parser] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}')
+    iridium-sniffer -i soapy-0 -l --web=8887 --parsed 2> >(stdbuf -o0 awk '{print "[iridium-sniffer] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}' | grep WARNING) > >(socat -u STDIN UNIX-LISTEN:/tmp/irdmsock,fork)
 fi
