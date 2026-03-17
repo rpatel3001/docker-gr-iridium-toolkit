@@ -33,25 +33,27 @@ RUN set -x && \
     # temp
     TEMP_PACKAGES+=(build-essential) && \
     TEMP_PACKAGES+=(cmake) && \
+    TEMP_PACKAGES+=(pkg-config) && \
     TEMP_PACKAGES+=(git) && \
     TEMP_PACKAGES+=(libusb-1.0-0-dev) && \
-    TEMP_PACKAGES+=(gnuradio-dev) && \
-    TEMP_PACKAGES+=(libsndfile1-dev) && \
     # keep
     KEPT_PACKAGES+=(python3) && \
     KEPT_PACKAGES+=(python3-prctl) && \
     KEPT_PACKAGES+=(python3-pip) && \
+    KEPT_PACKAGES+=(python3-setuptools) && \
     KEPT_PACKAGES+=(libusb-1.0-0) && \
-    KEPT_PACKAGES+=(gnuradio) && \
-    KEPT_PACKAGES+=(gr-osmosdr) && \
-    KEPT_PACKAGES+=(libsndfile1) && \
+    KEPT_PACKAGES+=(libfftw3-dev) && \
+    KEPT_PACKAGES+=(libhackrf-dev) && \
+    KEPT_PACKAGES+=(libbladerf-dev) && \
+    KEPT_PACKAGES+=(libuhd-dev) && \
+#    KEPT_PACKAGES+=(ocl-icd-opencl-dev) && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
     "${KEPT_PACKAGES[@]}" \
     "${TEMP_PACKAGES[@]}" && \
     # install pip dependencies
     ln -s /usr/bin/python3 /usr/bin/pypy3 && \
-    pypy3 -m pip install --break-system-packages crcmod zmq pyproj && \
+    pypy3 -m pip install --break-system-packages crcmod zmq pyproj numpy scipy && \
     # install iridium-toolkit
     git clone https://github.com/muccc/iridium-toolkit.git /opt/iridium-toolkit && \
     pushd /opt/iridium-toolkit && \
@@ -65,13 +67,15 @@ RUN set -x && \
     sed -i 's/integrity=".*" crossorigin/crossorigin/g' html2/mtheatmap.html && \
     git apply --3way /tmp/iridium-toolkit.patch && \
     popd && \
-    # install gr-iridium
-    git clone https://github.com/muccc/gr-iridium.git /src/gr-iridium && \
-    pushd /src/gr-iridium && \
-    cmake -B build && \
-    cmake --build build -j`nproc` && \
-    cmake --install build && \
-    ldconfig && \
+    # install iridium-sniffer
+    git clone https://github.com/alphafox02/iridium-sniffer.git /src/iridium-sniffer && \
+    pushd /src/iridium-sniffer && \
+    mkdir build && \
+    pushd build && \
+    cmake .. && \
+    make -j$(nproc) && \
+    cp iridium-sniffer /usr/local/bin && \
+    popd && \
     popd && \
     # Clean up
     apt-get remove -y "${TEMP_PACKAGES[@]}" && \
