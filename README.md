@@ -29,10 +29,12 @@ services:
       - ./irdm.conf:/opt/irdm.conf:ro
     environment:
 #      - ENABLE_MTPOS_MAP=true
-#      - ENABLE_MTPOS_MAP_LOG=true
+#      - ENABLE_BEAM_MAP=true
 #      - DISABLE_EXTRACTOR=true
 #      - LOG_EXTRACTOR_STATS=true
 #      - LOG_MAP=true
+#      - LOG_MTMAP=true
+#      - DISABLE_EXTRACTOR=true
 #      - EXTRACTOR_ARGS= -D 8  # Valid values when running high sample rate are 1, 2, 4, 8 and 16
       - PARSER_ARGS= --harder --uw-ec --stats # remove --uw-ec then --harder if CPU usage is too high. --stats is required until an upstream bug is fixed
       - STATION_ID=XX-YYYY-IRDM
