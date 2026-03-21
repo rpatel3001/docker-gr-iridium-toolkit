@@ -51,6 +51,7 @@ RUN set -x && \
     "${TEMP_PACKAGES[@]}" && \
     # install pip dependencies
     ln -s /usr/bin/python3 /usr/bin/pypy3 && \
+    pypy3 -m pip install --break-system-packages setuptools && \
     pypy3 -m pip install --break-system-packages crcmod zmq pyproj && \
     # install iridium-toolkit
     git clone https://github.com/muccc/iridium-toolkit.git /opt/iridium-toolkit && \
